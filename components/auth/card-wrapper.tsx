@@ -26,7 +26,7 @@ export function CardWarrper({
 
 
   return (
-    <Card className="w-[400px] shadow-md mx-8">
+    <Card className="w-[400px] shadow-md mx-8 my-4 ">
         <CardHeader>
             <Header label={headerLabel}/>
         </CardHeader>
