@@ -1,5 +1,6 @@
 import { auth, signOut } from "@/auth" 
 import { Button } from "@/components/ui/button"
+import { UserRole } from "@prisma/client"
 
 export default async function SettingsPage() {
 
@@ -20,7 +21,9 @@ export default async function SettingsPage() {
     return (
         <div>
             <h1>Settings Pagg</h1>
-            <p>You are loged in</p>
+            {session.user.role === UserRole.ADMIN && <p>You are loged in as admin</p>}
+            {session.user.role === UserRole.USER && <p>You are loged in as user</p>}
+            <br />
             <p>{JSON.stringify(session)}</p>
             <form action={logout}>
                 <Button type="submit">Logout</Button>
