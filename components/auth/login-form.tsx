@@ -37,18 +37,26 @@ export function LoginForm(){
     })
 
     const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+        setError("")
+        setSuccess("")
+
         startTransition(() => {
             login(values)
-            .then(res => {
-                setSuccess(res.success)
-                setError(res.error)
+            .then((data) => {
+                try {
+                    setSuccess(data.success)
+                    setError(data.error)
+                } catch (error) {
+                    console.log(error)
+                }
+                
             })
         })
         
     }
 
     return(
-        <CardWarrper  headerLabel={"Welcome back"} backButtonLabel={"Dont have an account?"} backButtonHerf={"/register"} showSocial>
+        <CardWarrper  headerLabel={"Welcome back"} backButtonLabel={"Dont have an account?"} backButtonHerf={"/auth/register"} showSocial>
             
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

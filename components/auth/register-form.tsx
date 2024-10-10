@@ -40,6 +40,10 @@ export function RegisterForm(){
     })
 
     const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+
+        setError("")
+        setSuccess("")
+
         startTransition(() => {
             register(values)
             .then(res => {
@@ -51,7 +55,7 @@ export function RegisterForm(){
     }
 
     return(
-        <CardWarrper  headerLabel={"Create an account"} backButtonLabel={"you do have account?"} backButtonHerf={"/login"} showSocial>
+        <CardWarrper  headerLabel={"Create an account"} backButtonLabel={"you do have account?"} backButtonHerf={"/auth/login"} showSocial>
             
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
