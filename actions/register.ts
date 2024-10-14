@@ -5,7 +5,7 @@ import { RegisterSchema } from "@/schemas";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { getUserByEmail } from "@/data/user";
-
+import { generateVerificationToken } from "@/lib/tokens";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
@@ -14,11 +14,9 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
         return { error: "Invalid fields" };
     }
 
-    const {email, firstname, lastname, matricule, password } = validatedFields.data
+    const {email, name, matricule, password } = validatedFields.data
 
     const hashedPassword = await bcrypt.hash(password, 10)
-
-    
 
     if (await getUserByEmail(email)) {
         return { error: "Email already exists" };
@@ -27,15 +25,16 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     const user = await prisma.user.create({
         data: {
             email: email,
-            firstname: firstname,
-            lastname: lastname,
+            name: name,
             matricule: matricule,
             password: hashedPassword
         }
     })
 
+    const verificationToken = await generateVerificationToken(email)
+
     //send email
 
-    return { success: "account created" };
+    return { success: "Confirmation email sent!" };
 
 }

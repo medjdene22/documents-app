@@ -4,6 +4,7 @@ import prisma from "@/lib/db";
 import authConfig from "./auth.config"
 import { UserRole } from "@prisma/client";
 import { getUserById } from "@/data/user";
+import { generateVerificationToken } from "./lib/tokens";
 
 declare module "next-auth" {
 
@@ -15,7 +16,32 @@ declare module "next-auth" {
 }
  
 export const { auth, handlers, signIn, signOut } = NextAuth({
+
+  pages: {
+    signIn: "/auth/login",
+    error: "/auth/error", // Error code passed in query string as ?error=
+  },
+
+  events: {
+    async linkAccount({ user }) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { emailVerified: new Date() },
+      })
+    },
+  },
+
   callbacks: {
+    async signIn({ user, account }) {
+
+      if (account?.provider !== "credentials") return true
+      if(!user.id) return false
+
+      const existingUser = await getUserById(user.id)
+      if (!existingUser?.emailVerified) return false
+
+      return true
+    },
 
     async session({ session, token }) {
 
@@ -38,6 +64,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     }, 
 
   },
+
+
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   ...authConfig,

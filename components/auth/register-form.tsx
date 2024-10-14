@@ -31,8 +31,7 @@ export function RegisterForm(){
     const form = useForm<z.infer<typeof RegisterSchema>>({
         resolver: zodResolver(RegisterSchema),
         defaultValues: {
-            firstname: "",
-            lastname: "",
+            name: "",
             matricule: "",
             email: "",
             password: ""
@@ -60,24 +59,16 @@ export function RegisterForm(){
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="space-y-4">
-                    <FormField control={form.control} name="firstname" render={({ field }) => (
+                    <FormField control={form.control} name="name" render={({ field }) => (
                             <FormItem>
-                                <FormLabel>First Name</FormLabel>
+                                <FormLabel>Name</FormLabel>
                                 <FormControl>
-                                    <Input {...field} placeholder="firstname" type="text" disabled={isPending}/>
+                                    <Input {...field} placeholder="FIRSTNAME lastname" type="text" disabled={isPending}/>
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
                     )}/>
-                    <FormField control={form.control} name="lastname" render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Last Name</FormLabel>
-                                <FormControl>
-                                    <Input {...field} placeholder="lastname" type="text" disabled={isPending}/>
-                                </FormControl>
-                                <FormMessage/>
-                            </FormItem>
-                    )}/>
+                    
                     <FormField control={form.control} name="matricule" render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Matricule</FormLabel>
