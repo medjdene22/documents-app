@@ -4,7 +4,6 @@ import prisma from "@/lib/db";
 import authConfig from "./auth.config"
 import { UserRole } from "@prisma/client";
 import { getUserById } from "@/data/user";
-import { generateVerificationToken } from "./lib/tokens";
 
 declare module "next-auth" {
 

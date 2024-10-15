@@ -1,33 +1,22 @@
-import { auth, signOut } from "@/auth" 
+"use client"
+
+import { Logout } from "@/actions/logout"
 import { Button } from "@/components/ui/button"
-import { UserRole } from "@prisma/client"
+import { useCurrentUser } from "@/hooks/use-current-user"
 
-export default async function SettingsPage() {
+export default function SettingsPage() {
 
-    const session = await auth()
+    const user = useCurrentUser()
 
-    if (!session) {
-        return (
-        <h1>
-            You are not logged in <br/>
-        </h1>
-        )
-    }
-    const logout = async () => {
-        "use server"
-        await signOut()
+    const onLogout = () => { 
+        Logout() 
     }
 
     return (
-        <div>
-            <h1>Settings Pagg</h1>
-            {session.user.role === UserRole.ADMIN && <p>You are loged in as admin</p>}
-            {session.user.role === UserRole.USER && <p>You are loged in as user</p>}
-            <br />
-            <p>{JSON.stringify(session)}</p>
-            <form action={logout}>
-                <Button type="submit">Logout</Button>
-            </form>
+        <div className="bg-white p-10 rounded-xl"> 
+            <h1>Settings Page</h1>
+
+            <Button onClick={onLogout}>Logout</Button>
         </div>
     )
 }
