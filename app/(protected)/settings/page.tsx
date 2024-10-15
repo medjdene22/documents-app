@@ -15,6 +15,7 @@ export default function SettingsPage() {
     return (
         <div className="bg-white p-10 rounded-xl"> 
             <h1>Settings Page</h1>
+            <h3>user: {user?.email}</h3>
 
             <Button onClick={onLogout}>Logout</Button>
         </div>
