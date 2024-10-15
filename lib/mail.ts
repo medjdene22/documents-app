@@ -11,7 +11,6 @@ export async function SendVerificationEmail(email: string, token: string) {
         html: `<p>Please confirm your email by clicking <a href="${confirmLink}">here</a>.</p>`,
     })
 
-    console.log(verificationMail)
 }
 
 export async function SendResetEmail(email: string, token: string) {
