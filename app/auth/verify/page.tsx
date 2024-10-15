@@ -3,7 +3,7 @@ import { Suspense } from "react";
 
 
 
-export default function Login() {
+export default function verify() {
   return (
     <Suspense><VerifyForm/></Suspense>    
   );

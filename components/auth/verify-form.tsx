@@ -1,6 +1,6 @@
 "use client"
 
-import { startTransition, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation"
 import { CardWarrper } from "./card-wrapper";
 import { BeatLoader } from "react-spinners";
