@@ -54,10 +54,16 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if (session.user && token.sub) {
         session.user.id = token.sub
       }
+
       if (session.user && token.role) {
         session.user.role = token.role as UserRole
+      }
+
+      if (session.user) {
+        session.user.name = token.name
         session.user.matricule = token.matricule as string
       }
+
       return session
     },
 
@@ -68,6 +74,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       const existingUser = await getUserById(token.sub)
       token.role = existingUser?.role
       token.matricule = existingUser?.matricule
+      token.name = existingUser?.name
+
       return token
     }, 
 

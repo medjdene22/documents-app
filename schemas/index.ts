@@ -33,3 +33,13 @@ export const NewPasswordSchema = z.object({
         message: "password is required"
     })
 })
+
+export const SettingsSchema = z.object({
+    name: z.string().min(1, {
+        message: "name is required"
+    }),
+    matricule: z.string().min(10, {
+        message: "matricule lenth must contain at least 10"
+    }),
+    
+})
