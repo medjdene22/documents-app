@@ -25,7 +25,7 @@ export const UserButton = () => {
             <DropdownMenuContent className="w-32 rounded-xl bg-white p-2 shadow-md">
                 <LogoutButton>
                     <DropdownMenuItem>
-                        <div className="flex items-center gap-x-2">
+                        <div className="flex items-center gap-x-2 cursor-pointer">
                             <ExitIcon className="h-4 w-4"/>
                             <span>Logout</span>
                         </div>
