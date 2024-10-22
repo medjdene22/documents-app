@@ -22,6 +22,13 @@
       "when": 1729592907468,
       "tag": "0002_supreme_silvermane",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1729606129441,
+      "tag": "0003_good_kabuki",
+      "breakpoints": true
     }
   ]
 }

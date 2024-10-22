@@ -79,4 +79,27 @@ export const departments = pgTable("departments", {
   name: text("name").notNull(),
 });
 
+export const departmentsRelations = relations(departments, ({ many }) => ({
+  specialties: many(specialties),
+}));
+
 export const insertDepartmentSchima = createInsertSchema(departments);
+
+
+export const specialties = pgTable("specialties", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  departmentId: text("department-id").references( ()=> departments.id , {
+    onDelete: "cascade"
+  }).notNull()
+});
+
+export const specialtiesRelations = relations(specialties, ({ one }) => ({
+  department: one(departments, {
+      fields: [specialties.departmentId],
+      references: [departments.id]
+  }),
+
+}));
+
+export const insertSpecialtiesSchima = createInsertSchema(specialties);

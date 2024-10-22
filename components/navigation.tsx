@@ -21,8 +21,8 @@ const routes = [
     label: 'Transactions'
   },
   {
-    href: '/accounts',
-    label: 'Accounts'
+    href: '/dashboard/specialties',
+    label: 'Specialties'
   },
   
   {
