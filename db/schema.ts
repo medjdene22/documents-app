@@ -50,8 +50,7 @@ export const verificationTokens = pgTable(
     id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-    name: text("name"),
-    email: text("email"),
+    email: text("email").notNull(),
     token: text("token").notNull(),
     expires: timestamp("expires", { mode: "date" }).notNull(),
   },
@@ -66,8 +65,7 @@ export const PasswordResetToken = pgTable(
     id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-    name: text("name"),
-    email: text("email"),
+    email: text("email").notNull(),
     token: text("token").notNull(),
     expires: timestamp("expires", { mode: "date" }).notNull(),
   },
