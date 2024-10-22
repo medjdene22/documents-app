@@ -12,6 +12,6 @@ export async function currentRole() {
 
     const session = await auth()
 
-    return session?.user?.roles
+    return session?.user?.role
     
 }

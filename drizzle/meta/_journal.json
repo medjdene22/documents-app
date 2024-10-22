@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1729377611489,
-      "tag": "0000_breezy_the_enforcers",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1729448866173,
-      "tag": "0001_tiny_wrecking_crew",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1729592907468,
-      "tag": "0002_supreme_silvermane",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1729606129441,
-      "tag": "0003_good_kabuki",
+      "when": 1729637140404,
+      "tag": "0000_pale_black_bolt",
       "breakpoints": true
     }
   ]

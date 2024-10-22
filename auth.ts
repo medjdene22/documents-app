@@ -10,14 +10,14 @@ declare module "next-auth" {
 
   interface Session {
     user: {
-      roles: "USER" | "ADMIN",
+      role: "USER" | "ADMIN",
       matricule : string
     } & DefaultSession["user"]
   }
 }
 
 export type ExtendingUser ={
-    roles: "USER" | "ADMIN",
+    role: "USER" | "ADMIN",
     matricule : string
   } & DefaultSession["user"]
 
@@ -60,8 +60,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         session.user.id = token.sub
       }
 
-      if (session.user && token.roles) {
-        session.user.roles = token.roles as "USER" | "ADMIN"
+      if (session.user && token.role) {
+        session.user.role = token.role as "USER" | "ADMIN"
       }
 
       if (session.user) {
@@ -77,7 +77,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if(!token.sub) return token
 
       const existingUser = await getUserById(token.sub)
-      token.roles = existingUser?.roles
+      token.role = existingUser?.role
       token.matricule = existingUser?.matricule
       token.name = existingUser?.name
 

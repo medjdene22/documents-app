@@ -17,17 +17,16 @@ const routes = [
     label: 'Overview'
   },
   {
-    href: '/transactions',
-    label: 'Transactions'
+    href: '/dashboard/requests',
+    label: 'Requests'
+  },
+  {
+    href: '/dashboard/departments',
+    label: 'Departments'
   },
   {
     href: '/dashboard/specialties',
     label: 'Specialties'
-  },
-  
-  {
-    href: '/dashboard/departments',
-    label: 'Departments'
   },
   {
     href: '/dashboard/settings',

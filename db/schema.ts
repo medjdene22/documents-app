@@ -1,5 +1,3 @@
-import { z } from "zod"
-import { relations } from "drizzle-orm";
 import { integer, pgEnum, pgTable, primaryKey, text, timestamp, unique } from "drizzle-orm/pg-core";
 import { createInsertSchema} from "drizzle-zod"
 import type { AdapterAccountType } from "next-auth/adapters"
@@ -16,7 +14,7 @@ export const users = pgTable("user", {
     emailVerified: timestamp("emailVerified", { mode: "date" }),
     image: text("image"),
     password: text("password"),
-    roles: rolesEnum("role").notNull().default("USER")
+    role: rolesEnum("role").notNull().default("USER")
    
 })
 
@@ -78,11 +76,6 @@ export const departments = pgTable("departments", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
 });
-
-export const departmentsRelations = relations(departments, ({ many }) => ({
-  specialties: many(specialties),
-}));
-
 export const insertDepartmentSchima = createInsertSchema(departments);
 
 
@@ -93,13 +86,28 @@ export const specialties = pgTable("specialties", {
     onDelete: "cascade"
   }).notNull()
 });
-
-export const specialtiesRelations = relations(specialties, ({ one }) => ({
-  department: one(departments, {
-      fields: [specialties.departmentId],
-      references: [departments.id]
-  }),
-
-}));
-
 export const insertSpecialtiesSchima = createInsertSchema(specialties);
+
+export const requests = pgTable("requests", {
+  id: text("id").primaryKey(),
+  documentType: text("document-type").notNull(),
+  level: text("level").notNull(),
+  date: timestamp("date", { mode: "date"}).notNull(),
+  notes: text("notes"),
+
+  userId: text("user-id").references( ()=> users.id , {
+    onDelete: "set null"
+  }).notNull(),
+  userName: text("user-name").notNull(),
+  userMatricule: text("matricule").notNull(),
+
+  departmentId: text("department-id").references( ()=> departments.id , {
+    onDelete: "cascade"
+  }).notNull(),
+  specialtyId: text("specialty-id").references( ()=> specialties.id , {
+    onDelete: "set null"
+  }).notNull(),
+
+});
+
+export const insertRequestsSchima = createInsertSchema(requests);

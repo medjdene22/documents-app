@@ -1,5 +1,5 @@
 {
-  "id": "8af27575-a916-4a6f-9e1c-7d7f589679eb",
+  "id": "1d97165e-1a72-4184-8596-f4330f9d611f",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -14,17 +14,11 @@
           "primaryKey": true,
           "notNull": true
         },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
         "email": {
           "name": "email",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "token": {
           "name": "token",
@@ -153,6 +147,183 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
+    "public.departments": {
+      "name": "departments",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "public.requests": {
+      "name": "requests",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "document-type": {
+          "name": "document-type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "level": {
+          "name": "level",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "user-id": {
+          "name": "user-id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user-name": {
+          "name": "user-name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "matricule": {
+          "name": "matricule",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "department-id": {
+          "name": "department-id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "specialty-id": {
+          "name": "specialty-id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "requests_user-id_user_id_fk": {
+          "name": "requests_user-id_user_id_fk",
+          "tableFrom": "requests",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user-id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "requests_department-id_departments_id_fk": {
+          "name": "requests_department-id_departments_id_fk",
+          "tableFrom": "requests",
+          "tableTo": "departments",
+          "columnsFrom": [
+            "department-id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "requests_specialty-id_specialties_id_fk": {
+          "name": "requests_specialty-id_specialties_id_fk",
+          "tableFrom": "requests",
+          "tableTo": "specialties",
+          "columnsFrom": [
+            "specialty-id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "public.specialties": {
+      "name": "specialties",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "department-id": {
+          "name": "department-id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "specialties_department-id_departments_id_fk": {
+          "name": "specialties_department-id_departments_id_fk",
+          "tableFrom": "specialties",
+          "tableTo": "departments",
+          "columnsFrom": [
+            "department-id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
     "public.user": {
       "name": "user",
       "schema": "",
@@ -232,17 +403,11 @@
           "primaryKey": true,
           "notNull": true
         },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
         "email": {
           "name": "email",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "token": {
           "name": "token",
