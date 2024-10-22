@@ -1,10 +1,11 @@
-import prisma from "@/lib/db";
+import { db } from "@/db/drizzle"
+import { verificationTokens } from "@/db/schema"
+import { eq } from "drizzle-orm"
 
 export async function getVerificationTokenByEmail(email: string){
     try {
-        const existingToken = await prisma.verificationToken.findFirst({
-            where: { email }
-        })
+        const [existingToken] = await db.select().from(verificationTokens)
+            .where(eq(verificationTokens.email, email))
         return existingToken
 
     } catch (error) {
@@ -14,9 +15,8 @@ export async function getVerificationTokenByEmail(email: string){
 
 export async function getVerificationTokenByToken(token: string){
     try {
-        const existingToken = await prisma.verificationToken.findUnique({
-            where: { token }
-        })
+        const [existingToken] = await db.select().from(verificationTokens)
+            .where(eq(verificationTokens.token, token))
         return existingToken
 
     } catch (error) {

@@ -4,19 +4,17 @@ import { FaUser } from "react-icons/fa"
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
-import { useCurrentUser } from "@/hooks/use-current-user"
 import { LogoutButton } from "./logout-button"
 import { ExitIcon } from "@radix-ui/react-icons"
 
-export const UserButton = () => {
+export const UserButton = ({image} : {image: string | null | undefined}) => {
 
-    const user = useCurrentUser()
     
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
-                <Avatar>
-                    <AvatarImage src={user?.image || ""}/>
+                <Avatar className="w-8 h-8">
+                    <AvatarImage src={image || ""} />
                     <AvatarFallback className="bg-sky-500">
                         <FaUser className="text-white"/>
                     </AvatarFallback>

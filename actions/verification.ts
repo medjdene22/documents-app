@@ -1,8 +1,10 @@
 "use server";
-import prisma from "@/lib/db";
+import { db } from "@/db/drizzle";
 import { getUserByEmail } from "@/data/user";
 import { getVerificationTokenByToken } from "@/data/verification-token";
 import { generateVerificationToken } from "@/lib/tokens";
+import { users, verificationTokens } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 export async function verifyToken(token: string) {
 
@@ -22,14 +24,11 @@ export async function verifyToken(token: string) {
         return { error: "Email does not exist" };
     }
 
-    await prisma.user.update({
-        where: { id: existingUser.id },
-        data: { emailVerified: new Date(), email: existingToken.email }
-    })
+    await db.update(users).set({
+        emailVerified: new Date()
+    }).where(eq(users.id, existingUser.id))
 
-    await prisma.verificationToken.delete({
-        where: { id: existingToken.id }
-    })
+    await db.delete(verificationTokens).where(eq(verificationTokens.token, existingToken.token))
 
     return { success: "Email verified!" }
 }

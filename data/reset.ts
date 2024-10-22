@@ -1,10 +1,11 @@
-import prisma from "@/lib/db";
+import { db } from "@/db/drizzle"
+import { PasswordResetToken } from "@/db/schema"
+import { eq } from "drizzle-orm"
 
 export async function getResetTokenByEmail(email: string){
     try {
-        const passwordToken = await prisma.passwordResetToken.findFirst({
-            where: { email }
-        })
+        const [passwordToken] = await db.select().from(PasswordResetToken)
+            .where(eq(PasswordResetToken.email, email))
         return passwordToken
 
     } catch (error) {
@@ -14,9 +15,8 @@ export async function getResetTokenByEmail(email: string){
 
 export async function getResetTokenByToken(token: string){
     try {
-        const passwordToken = await prisma.passwordResetToken.findUnique({
-            where: { token }
-        })
+        const [passwordToken] = await db.select().from(PasswordResetToken)
+            .where(eq(PasswordResetToken.token, token))
         return passwordToken
 
     } catch (error) {

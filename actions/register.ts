@@ -1,11 +1,12 @@
 "use server";
 
-import prisma from "@/lib/db";
+import { db } from "@/db/drizzle";
 import { RegisterSchema } from "@/schemas";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { getUserByEmail } from "@/data/user";
 import { generateVerificationToken } from "@/lib/tokens";
+import { users } from "@/db/schema";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
@@ -22,16 +23,15 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
         return { error: "Email already exists" };
     }
 
-    const user = await prisma.user.create({
-        data: {
-            email: email,
-            name: name,
+    await db.insert(users)
+        .values(
+            {name: name,
             matricule: matricule,
+            email: email,
             password: hashedPassword
-        }
-    })
+        })
 
-    const verificationToken = await generateVerificationToken(email)
+    await generateVerificationToken(email)
 
     //send email
 

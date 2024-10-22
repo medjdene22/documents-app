@@ -1,22 +1,23 @@
 import NextAuth, { type DefaultSession } from "next-auth"
-import { PrismaAdapter } from "@auth/prisma-adapter"
-import prisma from "@/lib/db";
+import { db } from "./db/drizzle";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import authConfig from "./auth.config"
-import { UserRole } from "@prisma/client";
 import { getUserById } from "@/data/user";
+import { users } from "./db/schema";
+import { eq } from "drizzle-orm";
 
 declare module "next-auth" {
 
   interface Session {
     user: {
-      role: UserRole,
+      roles: "USER" | "ADMIN",
       matricule : string
     } & DefaultSession["user"]
   }
 }
 
 export type ExtendingUser ={
-    role: UserRole,
+    roles: "USER" | "ADMIN",
     matricule : string
   } & DefaultSession["user"]
 
@@ -30,10 +31,14 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
   events: {
     async linkAccount({ user }) {
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { emailVerified: new Date() },
-      })
+
+      await db.update(users).set({
+        emailVerified: new Date()
+      }).where(
+        eq(users.id, user.id as string) 
+      )
+
+      
     },
   },
 
@@ -55,8 +60,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         session.user.id = token.sub
       }
 
-      if (session.user && token.role) {
-        session.user.role = token.role as UserRole
+      if (session.user && token.roles) {
+        session.user.roles = token.roles as "USER" | "ADMIN"
       }
 
       if (session.user) {
@@ -72,7 +77,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if(!token.sub) return token
 
       const existingUser = await getUserById(token.sub)
-      token.role = existingUser?.role
+      token.roles = existingUser?.roles
       token.matricule = existingUser?.matricule
       token.name = existingUser?.name
 
@@ -82,7 +87,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   },
 
 
-  adapter: PrismaAdapter(prisma),
+  adapter: DrizzleAdapter(db),
   session: { strategy: "jwt" },
   ...authConfig,
 })
+

@@ -17,7 +17,6 @@ export function LoginButton({
 
     const onClick = () =>{
         router.push("/auth/login")
-        console.log("Login Button clicked")
     }
 
     if (mode === "model") {

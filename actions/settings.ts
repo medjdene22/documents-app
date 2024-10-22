@@ -2,9 +2,11 @@
 
 import * as z from "zod"
 import { SettingsSchema } from "@/schemas"
-import prisma from "@/lib/db"
-import { getUserById } from "@/data/user"
+import { db } from "@/db/drizzle"
 import { currentUser } from "@/lib/auth-lib"
+import { getUserById } from "@/data/user"
+import { users } from "@/db/schema"
+import { eq } from "drizzle-orm"
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {
 
@@ -14,14 +16,9 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     const existingUser = await getUserById(user.id)
     if (!existingUser) return { error: "user does not exist" };
 
-    await prisma.user.update({
-        where: {
-            id: existingUser.id
-        },
-        data: {
-            ...values
-        }
-    })
+    await db.update(users).set({
+        ...values})
+        .where(eq(users.id, existingUser.id))
 
     return { success: "Settings updated" };
 }    

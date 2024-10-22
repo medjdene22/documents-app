@@ -12,6 +12,6 @@ export const authRoutes = [
     "/auth/new-password"
 ]
 
-export const apiAuthPrefix = '/api/auth'
+export const apiAuthPrefix = '/api/'
 
-export const DEFAUT_LOGIN_REDIRECT = "/settings" 
+export const DEFAUT_LOGIN_REDIRECT = "/dashboard" 

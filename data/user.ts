@@ -1,13 +1,12 @@
-import prisma from "@/lib/db";
-
+import { db } from "@/db/drizzle"
+import { users } from "@/db/schema"
+import { eq } from "drizzle-orm"
 export async function getUserByEmail(email: string){
 
     try {
-        const existingUser = await prisma.user.findUnique({
-            where: { 
-                email: email
-            }
-        })
+        const [existingUser] = await db.select().from(users)
+            .where(eq(users.email, email))
+
         return existingUser
         
     } catch (error) {
@@ -19,11 +18,8 @@ export async function getUserByEmail(email: string){
 export async function getUserById(id: string){
 
     try {
-        const existingUser = await prisma.user.findUnique({
-            where: { 
-                id: id
-            }
-        })
+        const [existingUser] = await db.select().from(users)
+        .where(eq(users.id, id))
         return existingUser
         
     } catch (error) {

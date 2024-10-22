@@ -1,8 +1,10 @@
 import { getVerificationTokenByEmail } from "@/data/verification-token";
 import { getResetTokenByEmail } from "@/data/reset";
 import { v4 as uuidv4 } from "uuid";
-import prisma from "@/lib/db";
+import { db } from "@/db/drizzle";
 import { SendResetEmail, SendVerificationEmail } from "./mail";
+import { PasswordResetToken, verificationTokens } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 
 export async function generateVerificationToken(email: string){
@@ -11,20 +13,13 @@ export async function generateVerificationToken(email: string){
 
     const existingToken = await getVerificationTokenByEmail(email)
     if (existingToken) {
-        await prisma.verificationToken.delete({
-            where: {
-                token: existingToken.token
-            }
-        })
+        await db.delete(verificationTokens).where(eq(verificationTokens.token, existingToken.token))
     }
 
-    const newToken = await prisma.verificationToken.create({
-        data: {
-            email,
-            token,
-            expires
-        }
-    })
+    const [newToken] = await db.insert(verificationTokens)
+        .values(
+            {email, token, expires}
+        ).returning()
 
     SendVerificationEmail(email, token)
     return newToken
@@ -38,20 +33,13 @@ export async function generateResetToken(email: string){
 
     const existingToken = await getResetTokenByEmail(email)
     if (existingToken) {
-        await prisma.passwordResetToken.delete({
-            where: {
-                token: existingToken.token
-            }
-        })
+        await db.delete(PasswordResetToken).where(eq(PasswordResetToken.token, existingToken.token))
     }
 
-    const newToken = await prisma.passwordResetToken.create({
-        data: {
-            email,
-            token,
-            expires
-        }
-    })
+    const [newToken] = await db.insert(PasswordResetToken)
+        .values(
+            {email, token, expires}
+        ).returning()
 
 
     SendResetEmail(email, token)

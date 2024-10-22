@@ -48,7 +48,7 @@ export const UserInfo = ({
                     <p className="text-sm font-bold">
                         Role
                     </p>
-                    <p>{user?.role}</p>
+                    <p>{user?.roles}</p>
                 </div>
                 
             </CardContent>

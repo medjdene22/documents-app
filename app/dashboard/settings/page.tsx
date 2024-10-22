@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 
 import { settings } from "@/actions/settings"
-import { LoginSchema } from "@/schemas";
 import {
     Form,
     FormControl,
@@ -19,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
-import { FormSuccess } from "@/components/form-success";import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { FormSuccess } from "@/components/form-success";import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useSession } from "next-auth/react"
 import { SettingsSchema } from "@/schemas";
 import { useCurrentUser } from "@/hooks/use-current-user";
@@ -61,11 +60,10 @@ export default function SettingsPage() {
     }
 
     return (
-        <Card className="bg-white w-[600px] shadow-xl rounded-xl"> 
+    <div className="max-w-screen-md mx-auto w-full pb-10 -mt-24">    
+        <Card className="border-none drop-shadow-sm"> 
             <CardHeader>
-                <p className="text-2xl font-semibold text-center">
-                    Setting Page
-                </p>
+                <CardTitle className="text-3xl line-clamp-1">Setting Page</CardTitle>
             </CardHeader>
             <CardContent>
 
@@ -96,11 +94,12 @@ export default function SettingsPage() {
                         <FormSuccess message={success}/>
                     </div>
                     
-                    <Button type="submit" className="w-full" disabled={isPending}>Log in</Button>
+                    <Button type="submit" className="w-full" disabled={isPending}>Update</Button>
                 </form>
             </Form>
 
             </CardContent>
         </Card>
+    </div>
     )
 }

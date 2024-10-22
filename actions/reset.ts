@@ -6,8 +6,10 @@ import bcrypt from "bcryptjs";
 import { generateResetToken } from "@/lib/tokens";
 import { getUserByEmail } from "@/data/user";
 import { getResetTokenByToken } from "@/data/reset";
-import prisma from "@/lib/db";
+import { db } from "@/db/drizzle";
 import { NewPasswordSchema, ResetSchema } from "@/schemas";
+import { PasswordResetToken, users } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 export const reset = async (values: z.infer<typeof ResetSchema>) => {
     const validatedFields = ResetSchema.safeParse(values);
@@ -60,14 +62,12 @@ export const NewPassword = async (values : z.infer<typeof NewPasswordSchema>, to
 
     const hashedPassword = await bcrypt.hash(validatedFields.data.password, 10)
 
-    await prisma.user.update({
-        where: { id: existingUser.id },
-        data: { password: hashedPassword}
-    })
+    await db.update(users).set({
+        password: hashedPassword
+    }).where(eq(users.id, existingUser.id))
+   
 
-    await prisma.passwordResetToken.delete({
-        where: { id: existingToken.id }
-    })
+    await db.delete(PasswordResetToken).where(eq(PasswordResetToken.id, existingToken.id))
 
     return { success: "Password updated successfully", };
 }
