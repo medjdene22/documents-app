@@ -1,7 +1,7 @@
 "use server";
 
 import * as z from "zod";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 
 import { generateResetToken } from "@/lib/tokens";
 import { getUserByEmail } from "@/data/user";

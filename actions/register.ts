@@ -3,7 +3,7 @@
 import { db } from "@/db/drizzle";
 import { RegisterSchema } from "@/schemas";
 import { z } from "zod";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import { getUserByEmail } from "@/data/user";
 import { generateVerificationToken } from "@/lib/tokens";
 import { users } from "@/db/schema";
