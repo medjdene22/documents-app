@@ -81,6 +81,7 @@ export const departments = pgTable("departments", {
 
 export const departmentsRelations = relations(departments, ({ many }) => ({
   specialties: many(specialties),
+  requests: many(requests)
 }));
 
 export const insertDepartmentSchima = createInsertSchema(departments);
@@ -94,12 +95,48 @@ export const specialties = pgTable("specialties", {
   }).notNull()
 });
 
-export const specialtiesRelations = relations(specialties, ({ one }) => ({
+export const specialtiesRelations = relations(specialties, ({ one, many }) => ({
   department: one(departments, {
       fields: [specialties.departmentId],
       references: [departments.id]
   }),
-
+  requests: many(requests)
 }));
 
 export const insertSpecialtiesSchima = createInsertSchema(specialties);
+
+
+export const requests = pgTable("requests", {
+  id: text("id").primaryKey(),
+  documentType: text("document-type").notNull(),
+  level: text("level").notNull(),
+  date: timestamp("date", { mode: "date"}).notNull(),
+  notes: text("notes"),
+
+  userId: text("user-id").references( ()=> users.id , {
+    onDelete: "set null"
+  }).notNull(),
+  userName: text("user-name").notNull(),
+  userMatricule: text("matricule").notNull(),
+
+  departmentId: text("department-id").references( ()=> departments.id , {
+    onDelete: "cascade"
+  }).notNull(),
+  specialtyId: text("specialty-id").references( ()=> specialties.id , {
+    onDelete: "set null"
+  }).notNull(),
+
+});
+
+export const requestsRelations = relations(requests, ({ one }) => ({
+  department: one(departments, {
+      fields: [requests.departmentId],
+      references: [departments.id]
+  }),
+  specialties: one(specialties, {
+      fields: [requests.specialtyId],
+      references: [specialties.id]
+  }),
+}));
+
+export const insertRequestsSchima = createInsertSchema(requests);
