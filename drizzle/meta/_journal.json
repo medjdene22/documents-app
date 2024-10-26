@@ -1,0 +1,55 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1729377611489,
+      "tag": "0000_breezy_the_enforcers",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1729448866173,
+      "tag": "0001_tiny_wrecking_crew",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1729592907468,
+      "tag": "0002_supreme_silvermane",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1729606129441,
+      "tag": "0003_good_kabuki",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1729887466634,
+      "tag": "0004_nosy_dexter_bennett",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1729894460884,
+      "tag": "0005_mighty_ulik",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1729898967947,
+      "tag": "0006_neat_peter_parker",
+      "breakpoints": true
+    }
+  ]
+}
